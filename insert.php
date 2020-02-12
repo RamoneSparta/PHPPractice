@@ -4,6 +4,7 @@ require 'config.inc.php';
 $name = "";
 $gender = "";
 $colour = "";
+$password = "";
 $tc = "";
 
 if(isset($_POST['submit']))
@@ -17,6 +18,14 @@ if(isset($_POST['submit']))
     else 
     {
         $name = $_POST['name'];
+    };
+    if(!isset($_POST['password']) || $_POST['password'] === '') 
+    {
+        $ok = false;
+    } 
+    else 
+    {
+        $password = $_POST['password'];
     };
     if(!isset($_POST['gender']) || $_POST['gender'] === '')
     {
@@ -46,6 +55,7 @@ if(isset($_POST['submit']))
 
     if($ok)
     {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
         $db = new mysqli
         (
             MYSQL_HOST,
@@ -55,11 +65,12 @@ if(isset($_POST['submit']))
         );
         $sql = sprintf
         (
-            "INSERT INTO users (name, gender, colour) 
-            VALUES ('%s', '%s', '%s')",
+            "INSERT INTO users (name, gender, colour, hash) 
+            VALUES ('%s', '%s', '%s','%s')",
             $db->real_escape_string($name),
             $db->real_escape_string($gender),
-            $db->real_escape_string($colour)
+            $db->real_escape_string($colour),
+            $db->real_escape_string($hash)
         );
         $db->query($sql);
         echo '<p>User added.</p>';

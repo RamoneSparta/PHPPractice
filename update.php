@@ -93,6 +93,7 @@ else
         $name = $row['name'];
         $gender = $row['gender'];
         $colour = $row['colour'];
+        
     }
     $db->close();
 
