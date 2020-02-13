@@ -1,6 +1,7 @@
 <?php
 
 require 'config.inc.php';
+require 'auth.inc.php';
 
 if (isset($_GET['id']) && ctype_digit($_GET['id']))
 {
